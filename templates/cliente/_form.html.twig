@@ -1,0 +1,23 @@
+{% import 'macro/action.html.twig' as action %}
+
+{{ action.frm_start(form) }}
+    {{ action.frm_column(
+        action.frm_column_field(form.nombre),
+        action.frm_column_field(form.apellidos)
+    ) }}
+    {{ action.frm_column(
+        action.frm_column_field(form.telefono),
+        action.frm_column_field(form.dni)
+    ) }}
+    {{ action.frm_column(
+        action.frm_column_field(form.direccion,null,null,2),
+        null,null,null,1
+    ) }}
+    {{ action.frm_column(
+        action.frm_column_btn(button_label|default('Guardar')),
+        null,
+        null,
+        null,
+        2
+    ) }}
+{{ action.frm_end(form) }}

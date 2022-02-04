@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+{% import 'macro/pagination.html.twig' as pagination %}
+
+{% set _title = 'Orden Pedidos' %}
+{% set _main_title = 'Listado' %}
+{% set _section =  'ordenPedido_index' %}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show(_title) }}
+{% endblock %}
+
+{% block _main %}
+    <div class="table-responsive">
+        {{ action.tbl_start() }}
+        {{ action.thead_start() }}
+        <tr>
+            {{ action.th('Trabajador', true) }}
+            {{ action.th('almacen', true) }}
+            {{ action.th('cliente', true) }}
+            {{ action.th('FechaPedido', true) }}
+            {{ action.th('Cantidad Pedidos', true) }}
+            {{ action.th('Cantidad Items', true) }}
+            {{ action.th('Activo', true, 'text-center') }}
+            <th></th>
+        </tr>
+        {{ action.thead_end() }}
+        {{ action.tbody_start() }}
+        {% for ordenPedido in paginator.results %}
+            <tr>
+                <td>{{ ordenPedido.trabajador}}</td>
+                <td>{{ ordenPedido.almacen }}</td>
+                <td>{{ ordenPedido.cliente }}</td>
+                <td>{{ ordenPedido.fechaPedido | date('Y-m-d') }}</td>
+                <td>{{ ordenPedido.cantidadPedido}}</td>
+                <td>{{ ordenPedido.cantidadItems}}</td>
+                <td class="text-center">{{ ordenPedido.activo | yesnocustom | raw }}</td>
+                <td>
+                    {% if access.has('view') %}
+                        {{ action.btn_show_link2_ico(path('ordenPedido_show', {'id': ordenPedido.id})) }}
+                    {% endif %}
+                    {% if access.has('edit', ordenPedido) %}
+                        {{ action.btn_edit_link2_ico(path('ordenPedido_edit', {'id': ordenPedido.id})) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay registros</td>
+            </tr>
+        {% endfor %}
+        {{ action.tbody_end() }}
+        {{ action.tbl_end() }}
+    </div>
+
+    {{ pagination.show(paginator, _section) }}
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_index_links.html.twig' with {'route_base': 'ordenPedido'} %}
+{% endblock%}
+
+{% block _main_options %}
+    {% include 'crud/_index_filter.html.twig' %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+
+{% block _body_tools_ico %}
+    {% include 'crud/_index_links_tool.html.twig' with {'route_base': 'ordenPedido'}  %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_index_links_ico.html.twig' with {'route_base': 'ordenPedido'}  %}
+{% endblock %}
+
+{% block _stylesheets %}
+{% endblock %}
+
+{% block _javascripts %}
+    <script>
+        jQuery(document).ready(function () {
+            $(document).on('change', '#filter_size', function () {
+                let route = '{{ path('ordenPedido_index') }}';
+                route = route + "?" + 'n=' + $('#filter_size option:selected').val();
+                route = route + "&" + 'b=' + $('#filter_text').val();
+                window.location = route;
+            });
+
+            $(document).on('click', '.btn-send', function () {
+                window.location = '{{ path('ordenPedido_index') }}';
+            });
+
+            $(document).on('click', '.btn-clean', function () {
+                window.location.href = '{{ path('ordenPedido_index') }}';
+            });
+        });
+    </script>
+{% endblock %}

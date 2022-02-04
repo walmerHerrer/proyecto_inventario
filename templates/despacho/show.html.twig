@@ -1,0 +1,40 @@
+
+{% extends 'base.html.twig' %}
+{% import 'macro/breadcrumb.html.twig' as breadcrumb %}
+{% import 'macro/action.html.twig' as action %}
+
+{% set _title = 'Despacho' %}
+{% set _main_title = 'Mostrar' %}
+{% set _section =  'despacho_index'%}
+
+{% block _breadcrumb %}
+    {{ breadcrumb.show2(_title, _section, 'Mostrar') }}
+{% endblock %}
+
+{% block _main %}
+    {{ action.tbl_start() }}
+        {{ action.tbl_tr('Trabajador',despacho.trabajador) }}
+        {{ action.tbl_tr('Almacen',despacho.almacen) }}
+        {{ action.tbl_tr('Fecha Salida',despacho.FechaSalida) }}
+        {{ action.tbl_tr('Items Despachos',despacho.itemsDesapachados) }}
+        {{ action.tbl_tr('Cantidad Despachos',despacho.cantidadDespacho) }}
+        {% include 'crud/_show_info.html.twig' with {'entity': despacho} %}
+    {{ action.tbl_end() }}
+
+{% endblock %}
+
+{% block _main_footer %}
+    {% include 'crud/_show_links.html.twig' with {'route_base':'despacho','entity': despacho} %}
+{% endblock %}
+
+{% block _main_tools %}
+    {% include 'crud/_tools_ico.html.twig' %}
+{% endblock %}
+
+{% block _body_tools %}
+    {% include 'crud/_show_links_ico.html.twig' with {'route_base':'despacho','entity': despacho} %}
+{% endblock %}
+
+{% block _body_tools_ico %}
+    {% include 'crud/_show_links_tool.html.twig' with {'route_base':'despacho','entity': despacho} %}
+{% endblock %}
