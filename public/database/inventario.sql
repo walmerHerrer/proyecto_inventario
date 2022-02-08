@@ -1,8 +1,9 @@
+-- phpMyAdmin SQL Dump
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2022 a las 00:25:55
+-- Tiempo de generación: 08-02-2022 a las 01:07:16
 -- Versión del servidor: 10.4.19-MariaDB
 -- Versión de PHP: 8.0.6
 
@@ -19,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `inventario`
 --
-CREATE DATABASE IF NOT EXISTS `inventario` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `inventario`;
 
 -- --------------------------------------------------------
 
@@ -47,7 +46,8 @@ CREATE TABLE `almacen` (
 --
 
 INSERT INTO `almacen` (`id`, `propietario_id`, `config_id`, `nombre`, `telefono`, `direccion`, `ruc`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, 1, 1, 'La unica', '963124785', 'calle Girón unión 215', '17563245128', '2022-02-04 18:08:22', '2022-02-04 18:11:54', 1, 0x05f3f70ae1a04c738a88d01bff018c72);
+(1, 1, 1, 'La unica', '963124785', 'calle Girón unión 215', '17563245128', '2022-02-04 18:08:22', '2022-02-04 18:11:54', 1, 0x05f3f70ae1a04c738a88d01bff018c72),
+(2, 1, 1, 'Aqui me quedo', '963214587', 'calle el altillo 2018', '10325469874', '2022-02-07 21:41:57', '2022-02-07 21:41:57', 1, 0x392b4bf238214aecbb2e668a2e02dcf6);
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,10 @@ CREATE TABLE `categoria` (
 
 INSERT INTO `categoria` (`id`, `propietario_id`, `config_id`, `nombre`, `detalle`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
 (1, 1, 1, 'Condiments', NULL, '2022-02-04 03:27:46', '2022-02-04 03:27:46', 1, 0x79c403e49c7f4883bedc1ddfca7c990b),
-(2, 1, 1, 'lapteos', NULL, '2022-02-04 03:33:29', '2022-02-04 03:33:29', 1, 0x9d584675ba5341dea1a8d499ee88c2ce);
+(2, 1, 1, 'lapteos', NULL, '2022-02-04 03:33:29', '2022-02-04 03:33:29', 1, 0x9d584675ba5341dea1a8d499ee88c2ce),
+(3, 1, 1, 'Arinas', NULL, '2022-02-07 17:47:35', '2022-02-07 17:47:35', 1, 0xcb1227c1c06b47fbaaeb8ba66387bf15),
+(4, 1, 1, 'Bebidas', NULL, '2022-02-07 17:51:54', '2022-02-07 17:51:54', 1, 0x6acc20291175444fb58443020b86ed57),
+(5, 1, 1, 'Frutas', NULL, '2022-02-07 17:52:11', '2022-02-07 17:52:11', 1, 0x9f7f2d3302934a778c872ca10b42d337);
 
 -- --------------------------------------------------------
 
@@ -95,6 +98,15 @@ CREATE TABLE `cliente` (
   `activo` tinyint(1) NOT NULL,
   `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`id`, `propietario_id`, `config_id`, `nombre`, `apellidos`, `telefono`, `direccion`, `dni`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 1, 1, 'Juan Carlos', 'estrada Marines', '963254178', 'calle la perla', '78563214', '2022-02-07 17:40:33', '2022-02-07 17:40:33', 1, 0xb4713070e7e34d81bc1e35aab8d448af),
+(2, 1, 1, 'Jhan calors', 'Carrea Panta', '965412387', 'la primavera', '85632147', '2022-02-07 17:42:14', '2022-02-07 17:42:14', 1, 0x3d758b87b48249fa9aaf533102c93c0a),
+(3, 1, 1, 'marcos abelardo', 'calle nuñez', '96321456', 'marines', '98651245', '2022-02-07 17:42:55', '2022-02-07 17:42:55', 1, 0x1ae306a29b0b4a96982ccbf68c65e520);
 
 -- --------------------------------------------------------
 
@@ -120,7 +132,7 @@ CREATE TABLE `config` (
 --
 
 INSERT INTO `config` (`id`, `propietario_id`, `config_id`, `alias`, `nombre`, `nombre_corto`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, NULL, NULL, 'Pidia', 'Pidia', 'Pidia', '2022-02-03 20:52:04', '2022-02-04 18:00:40', 1, 0x04b072271e834ffd9f6d804da9b9b8f0);
+(1, NULL, NULL, 'Pidia', 'Pidia', 'Pidia', '2022-02-07 17:34:55', '2022-02-07 17:34:55', 1, 0x6fc92e6901ac4a0d867a84791b90a420);
 
 -- --------------------------------------------------------
 
@@ -181,54 +193,6 @@ INSERT INTO `config_menu` (`id`, `name`, `route`, `activo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `despacho`
---
-
-CREATE TABLE `despacho` (
-  `id` int(11) NOT NULL,
-  `almacen_id` int(11) DEFAULT NULL,
-  `trabajador_id` int(11) DEFAULT NULL,
-  `propietario_id` int(11) DEFAULT NULL,
-  `config_id` int(11) DEFAULT NULL,
-  `fecha_salida` datetime NOT NULL,
-  `items_desapachados` decimal(10,2) DEFAULT NULL,
-  `cantidad_despacho` decimal(10,2) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `activo` tinyint(1) NOT NULL,
-  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `despacho`
---
-
-INSERT INTO `despacho` (`id`, `almacen_id`, `trabajador_id`, `propietario_id`, `config_id`, `fecha_salida`, `items_desapachados`, `cantidad_despacho`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, 1, 1, 1, 1, '2022-02-02 14:11:00', NULL, '4.00', '2022-02-04 17:11:43', '2022-02-04 18:13:42', 1, 0x60d5edad3668401fb59c40751c026a38),
-(2, NULL, 1, 1, 1, '2022-02-22 14:32:00', '12.00', '3.00', '2022-02-04 17:32:30', '2022-02-04 17:32:30', 1, 0xc631d46db6d146049baadca7e04577a9);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `despacho_producto`
---
-
-CREATE TABLE `despacho_producto` (
-  `despacho_id` int(11) NOT NULL,
-  `producto_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `despacho_producto`
---
-
-INSERT INTO `despacho_producto` (`despacho_id`, `producto_id`) VALUES
-(1, 3),
-(2, 3);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `detalle_orden_compra`
 --
 
@@ -239,7 +203,7 @@ CREATE TABLE `detalle_orden_compra` (
   `propietario_id` int(11) DEFAULT NULL,
   `config_id` int(11) DEFAULT NULL,
   `precio_proveedor` decimal(10,2) DEFAULT NULL,
-  `cant_recibida` decimal(10,2) NOT NULL,
+  `cant_recibida` decimal(10,0) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `activo` tinyint(1) NOT NULL,
@@ -251,9 +215,40 @@ CREATE TABLE `detalle_orden_compra` (
 --
 
 INSERT INTO `detalle_orden_compra` (`id`, `producto_id`, `orden_compra_id`, `propietario_id`, `config_id`, `precio_proveedor`, `cant_recibida`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, 3, 1, NULL, NULL, '14.00', '2.00', '2022-02-04 04:11:33', '2022-02-04 23:11:35', 1, 0x4d4373ff0f39452aa3b2dc434d1e3a23),
-(2, 3, 2, NULL, NULL, '32.00', '54.00', '2022-02-04 23:30:34', '2022-02-05 00:07:18', 1, 0xa0a70d8fe7664841a433f2b661541e6a),
-(3, 3, 2, NULL, NULL, '12.00', '65.00', '2022-02-04 23:39:29', '2022-02-05 00:07:18', 1, 0xadf9ead1ae5a4714986cd22ce437baf9);
+(1, 1, 1, NULL, NULL, '78.00', '40', '2022-02-07 17:57:13', '2022-02-07 17:57:13', 1, 0xdd584d047bd748c982a5a4df494d0e63),
+(2, 2, 1, NULL, NULL, '50.00', '100', '2022-02-07 17:57:13', '2022-02-07 17:57:13', 1, 0x7a369876f3b74b27bd841704ecca89c5),
+(3, 5, 1, NULL, NULL, '40.00', '50', '2022-02-07 17:57:13', '2022-02-07 17:57:13', 1, 0x7099ffe69e584994b3af1d5c2684f737),
+(4, 6, 1, NULL, NULL, '40.00', '80', '2022-02-07 17:57:13', '2022-02-07 17:57:13', 1, 0x67274f78ed134b5fabed18361675b9df),
+(5, 5, 2, NULL, NULL, '56.00', '12', '2022-02-07 23:27:47', '2022-02-07 23:27:47', 1, 0x6646bf8b674e4cf8a05a6f99ff7279ca);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_orden_pedido`
+--
+
+CREATE TABLE `detalle_orden_pedido` (
+  `id` int(11) NOT NULL,
+  `producto_id` int(11) NOT NULL,
+  `orden_pedido_id` int(11) NOT NULL,
+  `propietario_id` int(11) DEFAULT NULL,
+  `config_id` int(11) DEFAULT NULL,
+  `precio_venta` decimal(10,2) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `activo` tinyint(1) NOT NULL,
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `detalle_orden_pedido`
+--
+
+INSERT INTO `detalle_orden_pedido` (`id`, `producto_id`, `orden_pedido_id`, `propietario_id`, `config_id`, `precio_venta`, `cantidad`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 1, 1, NULL, NULL, '100.00', 35, '2022-02-07 22:55:05', '2022-02-07 22:55:05', 1, 0xfe214916d711411dae97646afa2ecd73),
+(2, 2, 1, NULL, NULL, '60.00', 20, '2022-02-07 22:55:05', '2022-02-07 22:55:05', 1, 0xf3de20ce61504a60851d256ca478b481),
+(3, 4, 1, NULL, NULL, '50.00', 10, '2022-02-07 22:55:05', '2022-02-07 22:55:05', 1, 0xc2ff7f57fe09401fb9c0299ace3465a5);
 
 -- --------------------------------------------------------
 
@@ -272,23 +267,8 @@ CREATE TABLE `doctrine_migration_versions` (
 --
 
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20220203194453', '2022-02-03 20:45:05', 850),
-('DoctrineMigrations\\Version20220203195856', '2022-02-03 20:59:05', 196),
-('DoctrineMigrations\\Version20220203203119', '2022-02-03 21:31:25', 114),
-('DoctrineMigrations\\Version20220203205712', '2022-02-03 21:57:24', 114),
-('DoctrineMigrations\\Version20220203222548', '2022-02-03 23:25:53', 153),
-('DoctrineMigrations\\Version20220204012228', '2022-02-04 02:22:37', 501),
-('DoctrineMigrations\\Version20220204030520', '2022-02-04 04:05:26', 33),
-('DoctrineMigrations\\Version20220204032622', '2022-02-04 04:26:27', 60),
-('DoctrineMigrations\\Version20220204044852', '2022-02-04 05:49:09', 359),
-('DoctrineMigrations\\Version20220204051443', '2022-02-04 06:14:53', 63),
-('DoctrineMigrations\\Version20220204053059', '2022-02-04 06:31:06', 106),
-('DoctrineMigrations\\Version20220204054106', '2022-02-04 06:41:16', 184),
-('DoctrineMigrations\\Version20220204054722', '2022-02-04 06:47:44', 436),
-('DoctrineMigrations\\Version20220204160731', '2022-02-04 17:07:50', 757),
-('DoctrineMigrations\\Version20220204162623', '2022-02-04 17:26:32', 168),
-('DoctrineMigrations\\Version20220204163744', '2022-02-04 17:37:54', 135),
-('DoctrineMigrations\\Version20220204172542', '2022-02-04 18:25:52', 107);
+('DoctrineMigrations\\Version20220207162400', '2022-02-07 17:24:05', 3233),
+('DoctrineMigrations\\Version20220207223012', '2022-02-07 23:30:39', 568);
 
 -- --------------------------------------------------------
 
@@ -330,6 +310,7 @@ INSERT INTO `menu` (`id`, `padre_id`, `propietario_id`, `config_id`, `nombre`, `
 (12, 11, 1, 1, 'Almacen', 'almacen_index', NULL, 0, '2022-02-04 04:42:32', '2022-02-04 04:42:32', 1, 0x33061868845946b4a78b8d4de6d37dea),
 (13, 6, 1, 1, 'Orden Pedidos', 'ordenPedido_index', NULL, 0, '2022-02-04 15:31:06', '2022-02-04 15:31:06', 1, 0xf8980d13c71a49c789043744253d89d6),
 (14, 8, 1, 1, 'Clientes', 'cliente_index', NULL, 0, '2022-02-04 18:01:09', '2022-02-04 18:01:09', 1, 0xec1a333f4d3b4831b732fc0e83f4e5b1);
+
 -- --------------------------------------------------------
 
 --
@@ -356,25 +337,24 @@ CREATE TABLE `orden_compra` (
   `id` int(11) NOT NULL,
   `trabajador_id` int(11) NOT NULL,
   `proveedor_id` int(11) NOT NULL,
+  `almacen_id` int(11) NOT NULL,
   `propietario_id` int(11) DEFAULT NULL,
   `config_id` int(11) DEFAULT NULL,
   `fecha` datetime NOT NULL,
-  `precio_orden` decimal(10,2) DEFAULT NULL,
-  `cantidad_orden` decimal(10,2) DEFAULT NULL,
+  `num_factura` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `activo` tinyint(1) NOT NULL,
-  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
-  `num_factura` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `orden_compra`
 --
 
-INSERT INTO `orden_compra` (`id`, `trabajador_id`, `proveedor_id`, `propietario_id`, `config_id`, `fecha`, `precio_orden`, `cantidad_orden`, `created_at`, `updated_at`, `activo`, `uuid`, `num_factura`) VALUES
-(1, 1, 1, 1, 1, '2022-02-17 00:00:00', NULL, '0.00', '2022-02-04 04:11:33', '2022-02-04 23:11:35', 1, 0x2d4dd6ce651a42efae4accd35c7155d5, '46562'),
-(2, 1, 1, 1, 1, '2022-02-24 02:31:40', '13.00', '15.00', '2022-02-04 23:29:57', '2022-02-05 00:07:18', 1, 0x81773b4d096c4df38f2efba6afcfbd8b, '84132174');
+INSERT INTO `orden_compra` (`id`, `trabajador_id`, `proveedor_id`, `almacen_id`, `propietario_id`, `config_id`, `fecha`, `num_factura`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 2, 3, 1, 1, 1, '2022-02-07 17:55:39', '54631', '2022-02-07 17:57:13', '2022-02-07 17:57:13', 1, 0x18b15b9f35794a1dacb73b586f8844b3),
+(2, 1, 2, 2, 1, 1, '2022-02-07 23:27:18', '846514685', '2022-02-07 23:27:47', '2022-02-07 23:27:47', 1, 0xfcfa25c79ded41a4bd67cec7a8df2185);
 
 -- --------------------------------------------------------
 
@@ -386,42 +366,24 @@ CREATE TABLE `orden_pedido` (
   `id` int(11) NOT NULL,
   `almacen_id` int(11) NOT NULL,
   `trabajador_id` int(11) DEFAULT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
   `propietario_id` int(11) DEFAULT NULL,
   `config_id` int(11) DEFAULT NULL,
   `fecha_pedido` datetime NOT NULL,
-  `cantidad_pedido` decimal(10,2) DEFAULT NULL,
-  `cantidad_items` decimal(10,2) DEFAULT NULL,
+  `despacho` tinyint(1) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `activo` tinyint(1) NOT NULL,
   `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
-  `cliente_id` int(11) DEFAULT NULL
+  `fecha_despacho` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `orden_pedido`
 --
 
-INSERT INTO `orden_pedido` (`id`, `almacen_id`, `trabajador_id`, `propietario_id`, `config_id`, `fecha_pedido`, `cantidad_pedido`, `cantidad_items`, `created_at`, `updated_at`, `activo`, `uuid`, `cliente_id`) VALUES
-(2, 1, 1, 1, 1, '2022-02-18 11:47:00', '15.00', '3.00', '2022-02-04 17:47:46', '2022-02-04 17:47:46', 1, 0x3ed1d85614134b4eb2459a8ca573f9ed, NULL);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `orden_pedido_producto`
---
-
-CREATE TABLE `orden_pedido_producto` (
-  `orden_pedido_id` int(11) NOT NULL,
-  `producto_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `orden_pedido_producto`
---
-
-INSERT INTO `orden_pedido_producto` (`orden_pedido_id`, `producto_id`) VALUES
-(2, 3);
+INSERT INTO `orden_pedido` (`id`, `almacen_id`, `trabajador_id`, `cliente_id`, `propietario_id`, `config_id`, `fecha_pedido`, `despacho`, `created_at`, `updated_at`, `activo`, `uuid`, `fecha_despacho`) VALUES
+(1, 1, 1, 2, 1, 1, '2022-02-07 22:53:30', 0, '2022-02-07 22:55:05', '2022-02-07 22:55:05', 1, 0x701138ff6d45435ab0e1e658d76c5760, NULL);
 
 -- --------------------------------------------------------
 
@@ -457,19 +419,24 @@ CREATE TABLE `producto` (
   `precio_unitario` decimal(10,2) NOT NULL,
   `descripcion` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `precio_venta` decimal(10,2) NOT NULL,
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `activo` tinyint(1) NOT NULL,
-  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)',
-  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `uuid` binary(16) NOT NULL COMMENT '(DC2Type:uuid)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`id`, `categoria_id`, `propietario_id`, `config_id`, `precio_unitario`, `descripcion`, `precio_venta`, `created_at`, `updated_at`, `activo`, `uuid`, `nombre`) VALUES
-(3, 2, 1, 1, '12.00', '---', '20.00', '2022-02-04 04:09:20', '2022-02-04 04:09:20', 1, 0x34becc8da68946529aaa476a40bd8ea6, 'Tarros de Leche');
+INSERT INTO `producto` (`id`, `categoria_id`, `propietario_id`, `config_id`, `precio_unitario`, `descripcion`, `precio_venta`, `nombre`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
+(1, 3, 1, 1, '80.00', '50kg', '110.00', 'Saco Arroz', '2022-02-07 17:48:27', '2022-02-07 17:48:27', 1, 0xc0da60f1d9314b12a67833e10f3a1230),
+(2, 3, 1, 1, '50.00', '45kg', '70.00', 'Papas', '2022-02-07 17:48:58', '2022-02-07 17:48:58', 1, 0x3509a2fa231a471790bd65542b328cf2),
+(3, 3, 1, 1, '40.00', '12 unidades', '60.00', 'paquete Fideo', '2022-02-07 17:49:50', '2022-02-07 17:50:01', 1, 0x72767ada86344aad9f8a19458885bf79),
+(4, 2, 1, 1, '150.00', '20 unidades', '200.00', 'Cajas de Leche Pequeña', '2022-02-07 17:50:40', '2022-02-07 17:50:40', 1, 0xeb3368dd641345b3983b414cd890b262),
+(5, 2, 1, 1, '120.00', '12 unidades', '160.00', 'Caja leche pequeña', '2022-02-07 17:51:14', '2022-02-07 17:51:14', 1, 0x9e4353c84b6a4c2f80734cac1ff9b607),
+(6, 4, 1, 1, '50.00', '8 unidades', '80.00', 'caja pepsi', '2022-02-07 17:52:55', '2022-02-07 17:52:55', 1, 0x2f1915123c0840949c68826ce6395fde);
 
 -- --------------------------------------------------------
 
@@ -497,7 +464,9 @@ CREATE TABLE `proveedor` (
 --
 
 INSERT INTO `proveedor` (`id`, `propietario_id`, `config_id`, `nombre`, `apellidos`, `telefono`, `direccion`, `dni`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, 1, 1, 'Andres', 'Marinces Torrez', '963214578', 'nose', '75412638', '2022-02-04 04:06:28', '2022-02-04 04:06:28', 1, 0xdf787c9b6c544798a828839bc244889e);
+(1, 1, 1, 'Andres', 'Marinces Torrez', '963214578', 'nose', '75412638', '2022-02-04 04:06:28', '2022-02-04 04:06:28', 1, 0xdf787c9b6c544798a828839bc244889e),
+(2, 1, 1, 'Daniel', 'Cunya Reto', '985412563', 'nose', '78562314', '2022-02-07 17:44:38', '2022-02-07 17:44:38', 1, 0x2d038ad8d3014e0b96e9b4ae9e55d98b),
+(3, 1, 1, 'Esteban', 'melendres campos', '963478521', 'la villa', '78563224', '2022-02-07 17:45:13', '2022-02-07 17:45:13', 1, 0x09edf64caa344a64b35cfcb32a00831d);
 
 -- --------------------------------------------------------
 
@@ -526,7 +495,8 @@ CREATE TABLE `trabajador` (
 --
 
 INSERT INTO `trabajador` (`id`, `propietario_id`, `config_id`, `nombre`, `apellidos`, `telefono`, `direccion`, `dni`, `cargo`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, 1, 1, 'Huber', 'Estrada Menlendrez', '963258147', 'calle san ramon 364', '78546321', 'supervisor', '2022-02-03 21:36:40', '2022-02-03 21:36:40', 1, 0x25f54e9be43a4b19a55a2b6a57606534);
+(1, 1, 1, 'huber', 'Herrera Guevara', '963254178', 'lo cantaritos de oro', '78563245', 'pedidos', '2022-02-07 17:46:26', '2022-02-07 17:46:26', 1, 0x4bd756e7f80b49feac3724d6d21bcb6f),
+(2, 1, 1, 'Juan', 'Ubillus Campos', '963452178', 'comenderos bajo', '74125896', 'compras', '2022-02-07 17:47:04', '2022-02-07 17:47:04', 1, 0x180dd4f451204b39b63049856bbdef4f);
 
 -- --------------------------------------------------------
 
@@ -553,7 +523,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `propietario_id`, `config_id`, `username`, `email`, `password`, `full_name`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, NULL, 1, 'admin', 'walmerhen@gmail.com', '$2y$13$R9b7qvbqBIX8eho75UEFMuRk/krv2zXJihNCspwEPmVr0RGebvd1y', 'Walmer Herrera', '2022-02-03 20:45:35', '2022-02-03 20:52:52', 1, 0x71c1177580df463c81774e18cc9a35f2);
+(1, NULL, 1, 'admin', 'cio@pidia.pe', '$2y$13$bviLFsHyY8EAeo3axjE4fOgREhPRVCFQsH7ZvDUH4qeZLyaqD4cRq', 'Carlos Chininin', '2022-02-07 17:28:19', '2022-02-07 17:43:24', 1, 0xf68d1b5a48d9434bb923cd8f499eef76);
 
 -- --------------------------------------------------------
 
@@ -609,7 +579,7 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`id`, `propietario_id`, `config_id`, `nombre`, `rol`, `created_at`, `updated_at`, `activo`, `uuid`) VALUES
-(1, NULL, NULL, 'Super Administrador', 'ROLE_SUPER_ADMIN', '2022-02-03 20:45:35', '2022-02-03 20:45:35', 1, 0x8a7f212c7cd044c7a5ea0a7f8f05d684);
+(1, NULL, NULL, 'Super Administrador', 'ROLE_SUPER_ADMIN', '2022-02-07 17:28:18', '2022-02-07 17:28:18', 1, 0x2cf924d5fec1490186aaa41f9907c91f);
 
 -- --------------------------------------------------------
 
@@ -684,25 +654,6 @@ ALTER TABLE `config_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `despacho`
---
-ALTER TABLE `despacho`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UNIQ_254BF5B3D17F50A6` (`uuid`),
-  ADD KEY `IDX_254BF5B39C9C9E68` (`almacen_id`),
-  ADD KEY `IDX_254BF5B3EC3656E` (`trabajador_id`),
-  ADD KEY `IDX_254BF5B353C8D32C` (`propietario_id`),
-  ADD KEY `IDX_254BF5B324DB0683` (`config_id`);
-
---
--- Indices de la tabla `despacho_producto`
---
-ALTER TABLE `despacho_producto`
-  ADD PRIMARY KEY (`despacho_id`,`producto_id`),
-  ADD KEY `IDX_5E741005299C08BC` (`despacho_id`),
-  ADD KEY `IDX_5E7410057645698E` (`producto_id`);
-
---
 -- Indices de la tabla `detalle_orden_compra`
 --
 ALTER TABLE `detalle_orden_compra`
@@ -712,6 +663,17 @@ ALTER TABLE `detalle_orden_compra`
   ADD KEY `IDX_BF1A3A25EA8C2923` (`orden_compra_id`),
   ADD KEY `IDX_BF1A3A2553C8D32C` (`propietario_id`),
   ADD KEY `IDX_BF1A3A2524DB0683` (`config_id`);
+
+--
+-- Indices de la tabla `detalle_orden_pedido`
+--
+ALTER TABLE `detalle_orden_pedido`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_E5371D14D17F50A6` (`uuid`),
+  ADD KEY `IDX_E5371D147645698E` (`producto_id`),
+  ADD KEY `IDX_E5371D14503F48CE` (`orden_pedido_id`),
+  ADD KEY `IDX_E5371D1453C8D32C` (`propietario_id`),
+  ADD KEY `IDX_E5371D1424DB0683` (`config_id`);
 
 --
 -- Indices de la tabla `doctrine_migration_versions`
@@ -744,6 +706,7 @@ ALTER TABLE `orden_compra`
   ADD UNIQUE KEY `UNIQ_765A054ED17F50A6` (`uuid`),
   ADD KEY `IDX_765A054EEC3656E` (`trabajador_id`),
   ADD KEY `IDX_765A054ECB305D73` (`proveedor_id`),
+  ADD KEY `IDX_765A054E9C9C9E68` (`almacen_id`),
   ADD KEY `IDX_765A054E53C8D32C` (`propietario_id`),
   ADD KEY `IDX_765A054E24DB0683` (`config_id`);
 
@@ -755,17 +718,9 @@ ALTER TABLE `orden_pedido`
   ADD UNIQUE KEY `UNIQ_2C77227FD17F50A6` (`uuid`),
   ADD KEY `IDX_2C77227F9C9C9E68` (`almacen_id`),
   ADD KEY `IDX_2C77227FEC3656E` (`trabajador_id`),
+  ADD KEY `IDX_2C77227FDE734E51` (`cliente_id`),
   ADD KEY `IDX_2C77227F53C8D32C` (`propietario_id`),
-  ADD KEY `IDX_2C77227F24DB0683` (`config_id`),
-  ADD KEY `IDX_2C77227FDE734E51` (`cliente_id`);
-
---
--- Indices de la tabla `orden_pedido_producto`
---
-ALTER TABLE `orden_pedido_producto`
-  ADD PRIMARY KEY (`orden_pedido_id`,`producto_id`),
-  ADD KEY `IDX_449301B2503F48CE` (`orden_pedido_id`),
-  ADD KEY `IDX_449301B27645698E` (`producto_id`);
+  ADD KEY `IDX_2C77227F24DB0683` (`config_id`);
 
 --
 -- Indices de la tabla `parametro`
@@ -855,19 +810,19 @@ ALTER TABLE `usuario_usuario_rol`
 -- AUTO_INCREMENT de la tabla `almacen`
 --
 ALTER TABLE `almacen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `config`
@@ -882,22 +837,22 @@ ALTER TABLE `config_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de la tabla `despacho`
---
-ALTER TABLE `despacho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de la tabla `detalle_orden_compra`
 --
 ALTER TABLE `detalle_orden_compra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_orden_pedido`
+--
+ALTER TABLE `detalle_orden_pedido`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `messenger_messages`
@@ -915,7 +870,7 @@ ALTER TABLE `orden_compra`
 -- AUTO_INCREMENT de la tabla `orden_pedido`
 --
 ALTER TABLE `orden_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `parametro`
@@ -927,19 +882,19 @@ ALTER TABLE `parametro`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `trabajador`
 --
 ALTER TABLE `trabajador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -999,22 +954,6 @@ ALTER TABLE `config_config_menu_menus`
   ADD CONSTRAINT `FK_A8E9CD31B9CB2BE2` FOREIGN KEY (`config_menu_id`) REFERENCES `config_menu` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `despacho`
---
-ALTER TABLE `despacho`
-  ADD CONSTRAINT `FK_254BF5B324DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
-  ADD CONSTRAINT `FK_254BF5B353C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `FK_254BF5B39C9C9E68` FOREIGN KEY (`almacen_id`) REFERENCES `almacen` (`id`),
-  ADD CONSTRAINT `FK_254BF5B3EC3656E` FOREIGN KEY (`trabajador_id`) REFERENCES `trabajador` (`id`);
-
---
--- Filtros para la tabla `despacho_producto`
---
-ALTER TABLE `despacho_producto`
-  ADD CONSTRAINT `FK_5E741005299C08BC` FOREIGN KEY (`despacho_id`) REFERENCES `despacho` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_5E7410057645698E` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
-
---
 -- Filtros para la tabla `detalle_orden_compra`
 --
 ALTER TABLE `detalle_orden_compra`
@@ -1022,6 +961,15 @@ ALTER TABLE `detalle_orden_compra`
   ADD CONSTRAINT `FK_BF1A3A2553C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
   ADD CONSTRAINT `FK_BF1A3A257645698E` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`),
   ADD CONSTRAINT `FK_BF1A3A25EA8C2923` FOREIGN KEY (`orden_compra_id`) REFERENCES `orden_compra` (`id`);
+
+--
+-- Filtros para la tabla `detalle_orden_pedido`
+--
+ALTER TABLE `detalle_orden_pedido`
+  ADD CONSTRAINT `FK_E5371D1424DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `FK_E5371D14503F48CE` FOREIGN KEY (`orden_pedido_id`) REFERENCES `orden_pedido` (`id`),
+  ADD CONSTRAINT `FK_E5371D1453C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_E5371D147645698E` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`);
 
 --
 -- Filtros para la tabla `menu`
@@ -1037,6 +985,7 @@ ALTER TABLE `menu`
 ALTER TABLE `orden_compra`
   ADD CONSTRAINT `FK_765A054E24DB0683` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
   ADD CONSTRAINT `FK_765A054E53C8D32C` FOREIGN KEY (`propietario_id`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `FK_765A054E9C9C9E68` FOREIGN KEY (`almacen_id`) REFERENCES `almacen` (`id`),
   ADD CONSTRAINT `FK_765A054ECB305D73` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`id`),
   ADD CONSTRAINT `FK_765A054EEC3656E` FOREIGN KEY (`trabajador_id`) REFERENCES `trabajador` (`id`);
 
@@ -1049,13 +998,6 @@ ALTER TABLE `orden_pedido`
   ADD CONSTRAINT `FK_2C77227F9C9C9E68` FOREIGN KEY (`almacen_id`) REFERENCES `almacen` (`id`),
   ADD CONSTRAINT `FK_2C77227FDE734E51` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   ADD CONSTRAINT `FK_2C77227FEC3656E` FOREIGN KEY (`trabajador_id`) REFERENCES `trabajador` (`id`);
-
---
--- Filtros para la tabla `orden_pedido_producto`
---
-ALTER TABLE `orden_pedido_producto`
-  ADD CONSTRAINT `FK_449301B2503F48CE` FOREIGN KEY (`orden_pedido_id`) REFERENCES `orden_pedido` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_449301B27645698E` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `parametro`
