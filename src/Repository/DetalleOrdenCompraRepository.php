@@ -56,7 +56,7 @@ class DetalleOrdenCompraRepository extends ServiceEntityRepository implements Ba
 
         return $queryBuilder;
     }
-    
+
     public function valuesGroupingProductos(int $id): array
     {
         $queryBuilder = $this->createQueryBuilder('doc')
@@ -67,9 +67,11 @@ class DetalleOrdenCompraRepository extends ServiceEntityRepository implements Ba
             ->join('doc.ordenCompra', 'oc')
             ->join('oc.almacen', 'al')
             ->groupBy('al.nombre')
-            ->groupBy('p.nombre')
-            // ->where('almacen.id = :almacen_id')
-            // ->setParameter('almacen_id', $id)
+            ->addGroupBy('p.nombre')
+            ->where('oc.activo = true')
+            ->andWhere('p.activo = true')
+            ->andWhere('al.id = :almacen_id')
+            ->setParameter('almacen_id', $id)
         ;
 
         return $queryBuilder->getQuery()->getResult();
