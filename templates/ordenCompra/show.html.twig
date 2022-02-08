@@ -15,9 +15,8 @@
     {{ action.tbl_start() }}
         {{ action.tbl_tr('Trabajador',numFactura.trabajador) }}
         {{ action.tbl_tr('Proveedor',numFactura.proveedor) }}
+        {{ action.tbl_tr('Almacen',numFactura.almacen) }}
         {{ action.tbl_tr('Fecha',numFactura.fecha) }}
-        {{ action.tbl_tr('precio',numFactura.precio_orden) }}
-        {{ action.tbl_tr('cantidad',numFactura.cantidad_orden) }}
         {{ action.tbl_tr('Numerp factura',numFactura.numFactura) }}
         {% include 'crud/_show_info.html.twig' with {'entity': numFactura} %}
     {{ action.tbl_end() }}

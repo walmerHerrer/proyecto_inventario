@@ -10,13 +10,13 @@ declare(strict_types=1);
 namespace Pidia\Apps\Demo\Manager;
 
 
-use Pidia\Apps\Demo\Entity\Despacho;
+use Pidia\Apps\Demo\Entity\DetalleOrdenPedido;
 use Pidia\Apps\Demo\Repository\BaseRepository;
 
-final class DespachoManager extends BaseManager
+final class DetalleOrdenPedidoManager extends BaseManager
 {
     public function repositorio(): BaseRepository
     {
-        return $this->manager()->getRepository(Despacho::class);
+        return $this->manager()->getRepository(DetalleOrdenPedido::class);
     }
 }

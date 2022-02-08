@@ -50,6 +50,7 @@
                 <source>lbl.disable</source>
                 <target>Inhabilitar</target>
             </trans-unit>
+            
             <trans-unit id="lbl.restore">
                 <source>lbl.restore</source>
                 <target>Restaurar</target>

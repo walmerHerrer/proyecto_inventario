@@ -16,9 +16,11 @@
         1
     ) }}
     {{ action.frm_column(
-        action.frm_column_field(form.precio_orden),
-        action.frm_column_field(form.cantidad_orden)
-        
+        action.frm_column_field_select(form.almacen,'','',2),
+        null,
+        null,
+        null,
+        1
     ) }}
     {{ action.frm_column(
         action.frm_column_field_date(form.fecha,'','',4),

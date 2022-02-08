@@ -1,4 +1,3 @@
--- phpMyAdmin SQL Dump
 -- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
@@ -330,10 +329,7 @@ INSERT INTO `menu` (`id`, `padre_id`, `propietario_id`, `config_id`, `nombre`, `
 (11, NULL, 1, 1, 'Mas', NULL, 'fas fa-ellipsis-v', 5, '2022-02-04 04:38:15', '2022-02-04 04:42:08', 1, 0x9308a3f98add40f9ad3b40378f95bfdb),
 (12, 11, 1, 1, 'Almacen', 'almacen_index', NULL, 0, '2022-02-04 04:42:32', '2022-02-04 04:42:32', 1, 0x33061868845946b4a78b8d4de6d37dea),
 (13, 6, 1, 1, 'Orden Pedidos', 'ordenPedido_index', NULL, 0, '2022-02-04 15:31:06', '2022-02-04 15:31:06', 1, 0xf8980d13c71a49c789043744253d89d6),
-(14, 8, 1, 1, 'Clientes', 'cliente_index', NULL, 0, '2022-02-04 18:01:09', '2022-02-04 18:01:09', 1, 0xec1a333f4d3b4831b732fc0e83f4e5b1),
-(15, NULL, 1, 1, 'Despachos', NULL, 'fas fa-sign-out-alt', 3, '2022-02-04 18:03:46', '2022-02-04 18:05:22', 1, 0x19e0ec92dfb840a7b3c8576ab377a7b3),
-(16, 15, 1, 1, 'Destribucion', 'despacho_index', NULL, 0, '2022-02-04 18:06:14', '2022-02-04 18:06:14', 1, 0xc889d1c1dfba43fca4e219d13c953954);
-
+(14, 8, 1, 1, 'Clientes', 'cliente_index', NULL, 0, '2022-02-04 18:01:09', '2022-02-04 18:01:09', 1, 0xec1a333f4d3b4831b732fc0e83f4e5b1);
 -- --------------------------------------------------------
 
 --

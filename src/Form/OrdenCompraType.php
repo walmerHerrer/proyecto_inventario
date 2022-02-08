@@ -17,11 +17,10 @@ class OrdenCompraType extends AbstractType
         $builder
             ->add('trabajador')
             ->add('proveedor')
+            ->add('almacen')
             ->add('fecha', DateTimeType::class,[
                 'widget'=>'single_text',
             ])
-            ->add('precio_orden')
-            ->add('cantidad_orden')
             ->add('numFactura')
             ->add('detalles',CollectionType::class,[
                 'entry_type' =>DetalleOrdenCompraType::class,

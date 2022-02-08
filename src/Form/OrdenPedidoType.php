@@ -7,8 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Pidia\Apps\Demo\Entity\Producto;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 
 class OrdenPedidoType extends AbstractType
@@ -22,11 +22,12 @@ class OrdenPedidoType extends AbstractType
             ->add('fechaPedido', DateTimeType::class,[
                 'widget'=>'single_text',
             ])
-            ->add('cantidadPedido')
-            ->add('cantidadItems')
-            ->add('productos', EntityType::class, [
-                'class' => Producto::class,
-                'multiple' => true,
+            ->add('detalles',CollectionType::class,[
+                'entry_type' =>DetalleOrdenPedidoType::class,
+                'entry_options' =>['label'=>false],
+                'allow_add'=>true,
+                'allow_delete'=>true,
+                'by_reference'=>false,
             ])
         ;
     }

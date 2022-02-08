@@ -20,8 +20,7 @@
             {{ action.th('almacen', true) }}
             {{ action.th('cliente', true) }}
             {{ action.th('FechaPedido', true) }}
-            {{ action.th('Cantidad Pedidos', true) }}
-            {{ action.th('Cantidad Items', true) }}
+            {{ action.th('Despachado', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
         </tr>
@@ -33,8 +32,7 @@
                 <td>{{ ordenPedido.almacen }}</td>
                 <td>{{ ordenPedido.cliente }}</td>
                 <td>{{ ordenPedido.fechaPedido | date('Y-m-d') }}</td>
-                <td>{{ ordenPedido.cantidadPedido}}</td>
-                <td>{{ ordenPedido.cantidadItems}}</td>
+                <td>{{ ordenPedido.despacho ? 'Yes' : 'No' }}</td>
                 <td class="text-center">{{ ordenPedido.activo | yesnocustom | raw }}</td>
                 <td>
                     {% if access.has('view') %}
@@ -43,6 +41,9 @@
                     {% if access.has('edit', ordenPedido) %}
                         {{ action.btn_edit_link2_ico(path('ordenPedido_edit', {'id': ordenPedido.id})) }}
                     {% endif %}
+                    {% if access.has('despachar', ordenPedido) %}
+                        {{ action.btn_despachar_link2_ico(path('ordenPedido_despachar', {'id': ordenPedido.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -50,11 +51,14 @@
                 <td colspan="4">No hay registros</td>
             </tr>
         {% endfor %}
+                   
         {{ action.tbody_end() }}
         {{ action.tbl_end() }}
     </div>
 
     {{ pagination.show(paginator, _section) }}
+
+    
 {% endblock %}
 
 {% block _main_footer %}

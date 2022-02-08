@@ -11,6 +11,7 @@ use Pidia\Apps\Demo\Util\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Pidia\Apps\Demo\Repository\DetalleOrdenCompraRepository;
 
 #[Route('/admin/almacen')]
 class AlmacenController extends BaseController
@@ -87,13 +88,23 @@ class AlmacenController extends BaseController
             ]
         );
     }
-
+    
     #[Route(path: '/{id}', name: 'almacen_show', methods: ['GET'])]
     public function show(almacen $almacen): Response
     {
         $this->denyAccess(Access::VIEW, 'almacen_index');
 
         return $this->render('almacen/show.html.twig', ['almacen' => $almacen]);
+    }
+
+    #[Route(path: '/{id}/reporteStock', name: 'almacen_reporteStock', methods: ['GET'])]
+    public function reporteStock(DetalleOrdenCompraRepository $repository,almacen $almacen): Response
+    {
+        $Stock = $repository->valuesGroupingProductos($almacen->getId());
+        return $this->render('almacen/reporteStock.html.twig', [
+            'almacen' => $Stock,
+        ]);
+        
     }
 
     #[Route(path: '/{id}/edit', name: 'almacen_edit', methods: ['GET', 'POST'])]

@@ -56,4 +56,22 @@ class DetalleOrdenCompraRepository extends ServiceEntityRepository implements Ba
 
         return $queryBuilder;
     }
+    
+    public function valuesGroupingProductos(int $id): array
+    {
+        $queryBuilder = $this->createQueryBuilder('doc')
+            ->select('al.nombre as almacen')
+            ->addSelect('p.nombre as producto')
+            ->addSelect('SUM(doc.cantRecibida) as stock')
+            ->join('doc.producto', 'p')
+            ->join('doc.ordenCompra', 'oc')
+            ->join('oc.almacen', 'al')
+            ->groupBy('al.nombre')
+            ->groupBy('p.nombre')
+            // ->where('almacen.id = :almacen_id')
+            // ->setParameter('almacen_id', $id)
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

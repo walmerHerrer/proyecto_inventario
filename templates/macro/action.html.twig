@@ -97,9 +97,9 @@
     {{ actions.btn_link_ico(link,'fa fa-upload','primary btn-import', attributes, 'lbl.import') }}
 {% endmacro %}
 
-{% macro btn_report_link_ico(link, attributes='') %}
+{% macro btn_report_link_ico(link, attributes='', title) %}
     {% import _self as actions %}
-    {{ actions.btn_link_ico(link,'fa fa-print','info btn-report', attributes, 'lbl.report') }}
+    {{ actions.btn_link_ico(link,'fa fa-print','info btn-report', attributes, title) }}
 {% endmacro %}
 
 {% macro btn_delete_form(link, token) %}
@@ -197,6 +197,10 @@
 {% macro btn_edit_link2_ico(link, attributes='') %}
     {% import _self as actions %}
     {{ actions.btn_link2(null,link,'fa fa-pencil-alt','warning', attributes, 'lbl.edit') }}
+{% endmacro %}
+{% macro btn_despachar_link2_ico(link, attributes='') %}
+    {% import _self as actions %}
+    {{ actions.btn_link2(null,link,'fa fa-car','danger', attributes, 'lbl.despachar') }}
 {% endmacro %}
 
 {% macro btn_print_link2_ico(link, attributes='') %}
@@ -717,7 +721,7 @@
                 {{ form_widget(value, {attr: {class: 'js-flatpickr form-control bg-white ' ~ class_widget ~ actions.frm_errors_class(value)} }) }}
                 <div class="input-group-append">
                     <span class="input-group-text">
-                        <i class="fa fa-calendar"></i>
+                        {# <i class="fa fa-calendar"></i> #}
                     </span>
                 </div>
             </div>

@@ -110,7 +110,7 @@ class Trabajador
         return $this;
     }
     public function __ToString():string{  
-        return $this->getNombre();
+        return $this->getNombre().' '.$this->getApellidos().'=> Cargo : '.$this->getCargo();
     }
 
 }

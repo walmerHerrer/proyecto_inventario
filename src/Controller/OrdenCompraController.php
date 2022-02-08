@@ -43,6 +43,7 @@ class OrdenCompraController extends BaseController
         $headers = [
             'trabajador' => 'Trabajador',
             'proveedor' => 'Proveedor',
+            'almacen' => 'Alamcen',
             'fecha' => 'Fecha',
             'precioOrden' => 'PrecioOrden',
             'cantidadOrden' => 'CantidadOrden',
@@ -56,6 +57,7 @@ class OrdenCompraController extends BaseController
             $item = [];
             $item['tabajador'] = $objeto->getTrabajador();
             $item['proveedor'] = $objeto->getProveedor();
+            $item['almacen'] = $objeto->getAlmacen();
             $item['fecha'] = $objeto->getFecha();
             $item['precioOrden'] = $objeto->getPrecioOrden();
             $item['cantidadOrden'] = $objeto->getCantidadOrden();
@@ -66,7 +68,7 @@ class OrdenCompraController extends BaseController
 
         return $manager->export($data, $headers, 'Reporte', 'ordenCompra');
     }
-    
+
     #[Route(path: '/new', name: 'ordenCompra_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OrdenCompraManager $manager): Response
     {
@@ -75,12 +77,6 @@ class OrdenCompraController extends BaseController
         $form = $this->createForm(OrdenCompraType::class, $ordenCompra);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $cant=$form->get('detalles')->getData();
-            // $cont=0;
-            // foreach ($cant as $item) {
-            //     $cont=$cont+$item['cantRecibida'];
-            // }
-            // $ordenCompra->setCantidadOrden($cont);
             $ordenCompra->setPropietario($this->getUser());
             if ($manager->save($ordenCompra)) {
                 $this->addFlash('success', 'Registro creado!!!');
@@ -100,33 +96,6 @@ class OrdenCompraController extends BaseController
             ]
         );
     }
-    // #[Route(path: '/new', name: 'ordenCompra_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, OrdenCompraManager $manager): Response
-    // {
-    //     $this->denyAccess(Access::NEW, 'ordenCompra_index');
-    //     $ordenCompra = new OrdenCompra();
-    //     $form = $this->createForm(OrdenCompraType::class, $ordenCompra);
-    //     $form->handleRequest($request);
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $ordenCompra->setPropietario($this->getUser());
-    //         if ($manager->save($ordenCompra)) {
-    //             $this->addFlash('success', 'Registro creado!!!');
-    //         } else {
-    //             $this->addErrors($manager->errors());
-    //         }
-
-    //         return $this->redirectToRoute('ordenCompra_index');
-    //     }
-        
-
-    //     return $this->render(
-    //         'ordenCompra/new.html.twig',
-    //         [
-    //             'ordenCompra' => $ordenCompra,
-    //             'form' => $form->createView(),
-    //         ]
-    //     );
-    // }
 
     #[Route(path: '/{id}', name: 'ordenCompra_show', methods: ['GET'])]
     public function show(OrdenCompra $ordenCompra): Response

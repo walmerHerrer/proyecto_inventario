@@ -39,6 +39,9 @@
                     {% if access.has('edit', almacen) %}
                         {{ action.btn_edit_link2_ico(path('almacen_edit', {'id': almacen.id})) }}
                     {% endif %}
+                    {% if access.has('reporteStock', almacen) %}
+                        {{ action.btn_report_link_ico(path('almacen_reporteStock', {'id': almacen.id})) }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

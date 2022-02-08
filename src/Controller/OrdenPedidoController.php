@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route(path: '/admin/ordenPedido')]
 class OrdenPedidoController extends BaseController
 {
@@ -40,7 +41,7 @@ class OrdenPedidoController extends BaseController
         $this->denyAccess(Access::EXPORT, 'ordenPedido_index');
         $headers = [
             'trabajador' => 'Trabajador',
-            'alamcen' => 'Proveedor',
+            'almacen' => 'Almacen',
             'fechaPedido' => 'Fecha',
             'cantidadPedido' => 'Cantidad Pedido',
             'cantidadItems' => 'Cantidad Items',
@@ -53,10 +54,8 @@ class OrdenPedidoController extends BaseController
         foreach ($objetos as $objeto) {
             $item = [];
             $item['tabajador'] = $objeto->getTrabajador();
-            $item['alamcen'] = $objeto->getAlmacen();
+            $item['almacen'] = $objeto->getAlmacen();
             $item['fechaPedido'] = $objeto->getFechaPedido();
-            $item['cantidadPedido'] = $objeto->getCantidadPedido();
-            $item['cantidadItems'] = $objeto->getCantidadItems();
             $item['activo'] = $objeto->activo();
             $data[] = $item;
             unset($item);
@@ -124,6 +123,18 @@ class OrdenPedidoController extends BaseController
             ]
         );
     }
+    #[Route(path: '/{id}/despachar', name: 'ordenPedido_despachar', methods: ['GET', 'POST'])]
+    public function despachar(Request $request, OrdenPedido $ordenPedido, OrdenPedidoManager $manager): Response
+    {
+        $this->denyAccess(Access::EDIT, 'ordenPedido_index');
+        $form = $this->createForm(OrdenPedidoType::class, $ordenPedido);
+        $form->handleRequest($request);
+        
+
+        return $this->redirectToRoute('ordenPedido_index');
+    }
+    #[Route('/reporteStock', name: 'ordenPedido_reporteStock', methods: ['GET'])]
+    
 
     #[Route(path: '/{id}', name: 'ordenPedido_delete', methods: ['POST'])]
     public function delete(Request $request, OrdenPedido $ordenPedido, OrdenPedidoManager $manager): Response

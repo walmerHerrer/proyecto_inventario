@@ -17,8 +17,7 @@
         {{ action.tbl_tr('Almacen',ordenPedido.almacen) }}
         {{ action.tbl_tr('Cliente',ordenPedido.cliente) }}
         {{ action.tbl_tr('FechaPedido',ordenPedido.FechaPedido) }}
-        {{ action.tbl_tr('CantidadPedido',ordenPedido.cantidadPedido) }}
-        {{ action.tbl_tr('Cantidad Items',ordenPedido.cantidadItems) }}
+        {{ action.tbl_tr('Despachar',ordenPedido.despacho)? 'Yes' : 'No' }}
         {% include 'crud/_show_info.html.twig' with {'entity': ordenPedido} %}
     {{ action.tbl_end() }}
 

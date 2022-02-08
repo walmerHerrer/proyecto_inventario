@@ -23,10 +23,6 @@
         1
     ) }}
     {{ action.frm_column(
-        action.frm_column_field(form.cantidadPedido),
-        action.frm_column_field(form.cantidadItems)
-    ) }}
-    {{ action.frm_column(
         action.frm_column_field_date(form.fechaPedido,'','',4),
         null,
         null,
@@ -34,7 +30,7 @@
         2
     ) }}
     {{ action.frm_column(
-        action.frm_column_field_select(form.productos,'','',2),
+        action.frm_column_field_collection(form.detalles,'','','',2),
         null,
         null,
         null,

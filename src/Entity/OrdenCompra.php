@@ -8,6 +8,7 @@ use Pidia\Apps\Demo\Repository\OrdenCompraRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Pidia\Apps\Demo\Entity\Trabajador;
 use Pidia\Apps\Demo\Entity\Proveedor;
+use Pidia\Apps\Demo\Entity\Almacen;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 
 use Symfony\Component\Validator\Constraints\Datetime;
@@ -32,18 +33,16 @@ class OrdenCompra
 
     #[ORM\Column(type: 'datetime')]
     private $fecha;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $precio_orden;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2,nullable: true)]
-    private $cantidad_orden;
     
     #[ORM\OneToMany(mappedBy: 'ordenCompra', targetEntity: DetalleOrdenCompra::class,cascade: ['persist','remove'], orphanRemoval: true)]
     private $detalles;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
     private $numFactura;
+
+    #[ORM\ManyToOne(targetEntity: Almacen::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $almacen;
     
 
     public function __construct()
@@ -56,6 +55,17 @@ class OrdenCompra
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function getAlmacen(): ?Almacen
+    {
+        return $this->almacen;
+    }
+
+    public function setAlmacen(?Almacen $almacen): self
+    {
+        $this->almacen = $almacen;
+
+        return $this;
     }
 
     public function getTrabajador(): ?Trabajador
@@ -94,29 +104,6 @@ class OrdenCompra
         return $this;
     }
 
-    public function getPrecioOrden(): ?string
-    {
-        return $this->precio_orden;
-    }
-
-    public function setPrecioOrden(?string $precio_orden): self
-    {
-        $this->precio_orden = $precio_orden;
-
-        return $this;
-    }
-
-    public function getCantidadOrden(): ?string
-    {
-        return $this->cantidad_orden;
-    }
-
-    public function setCantidadOrden(?string $cantidad_orden): self
-    {
-        $this->cantidad_orden = $cantidad_orden;
-
-        return $this;
-    }
 
     /**
      * @return Collection|DetalleOrdenCompra[]

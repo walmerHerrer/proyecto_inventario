@@ -10,7 +10,6 @@ use Pidia\Apps\Demo\Repository\OrdenPedidoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Pidia\Apps\Demo\Entity\Trabajador;
 use Pidia\Apps\Demo\Entity\Almacen;
-use Pidia\Apps\Demo\Entity\Producto;
 use Pidia\Apps\Demo\Entity\Cliente;
 use Pidia\Apps\Demo\Entity\Traits\EntityTrait;
 
@@ -36,21 +35,22 @@ class OrdenPedido
     #[ORM\Column(type: 'datetime')]
     private $fechaPedido;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $cantidadPedido;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $cantidadItems;
-
-    #[ORM\ManyToMany(targetEntity: Producto::class)]
-    private $productos;
-
     #[ORM\ManyToOne(targetEntity: Cliente::class)]
     private $cliente;
+    
+    #[ORM\OneToMany(mappedBy: 'ordenPedido', targetEntity: DetalleOrdenPedido::class,cascade: ['persist','remove'], orphanRemoval: true)]
+    private $detalles;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private $despacho=0;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $fechaDespacho;
+    
 
     public function __construct()
     {
-        $this->detallePedidos = new ArrayCollection();
+        $this->detalles = new ArrayCollection();
         $this->fechaPedido=new \DateTime();
         $this->productos = new ArrayCollection();
     }
@@ -96,54 +96,6 @@ class OrdenPedido
         return $this;
     }
 
-    public function getCantidadPedido(): ?string
-    {
-        return $this->cantidadPedido;
-    }
-
-    public function setCantidadPedido(?string $cantidadPedido): self
-    {
-        $this->cantidadPedido = $cantidadPedido;
-
-        return $this;
-    }
-
-    public function getCantidadItems(): ?string
-    {
-        return $this->cantidadItems;
-    }
-
-    public function setCantidadItems(?string $cantidadItems): self
-    {
-        $this->cantidadItems = $cantidadItems;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Productos[]
-     */
-    public function getProductos(): Collection
-    {
-        return $this->productos;
-    }
-
-    public function addProductos(Producto $productos): self
-    {
-        if (!$this->productos->contains($productos)) {
-            $this->productos[] = $productos;
-        }
-
-        return $this;
-    }
-
-    public function removeProductos(Producto $productos): self
-    {
-        $this->productos->removeElement($productos);
-
-        return $this;
-    }
-
     public function getCliente(): ?Cliente
     {
         return $this->cliente;
@@ -152,6 +104,60 @@ class OrdenPedido
     public function setCliente(?Cliente $cliente): self
     {
         $this->cliente = $cliente;
+
+        return $this;
+    }
+    
+    /**
+     * @return Collection|DetalleOrdenPedido[]
+     */
+    public function getDetalles(): Collection
+    {
+        return $this->detalles;
+    }
+
+    public function addDetalle(DetalleOrdenPedido $detalle): self
+    {
+        if (!$this->detalles->contains($detalle)) {
+            $this->detalles[] = $detalle;
+            $detalle->setOrdenPedido($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetalle(DetalleOrdenPedido $detalle): self
+    {
+        if ($this->detalles->removeElement($detalle)) {
+            // set the owning side to null (unless already changed)
+            if ($detalle->getOrdenPedido() === $this) {
+                $detalle->setOrdenPedido(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDespacho(): ?bool
+    {
+        return $this->despacho;
+    }
+
+    public function setDespacho(?bool $despacho): self
+    {
+        $this->despacho = $despacho;
+
+        return $this;
+    }
+
+    public function getFechaDespacho(): ?\DateTimeInterface
+    {
+        return $this->fechaDespacho;
+    }
+
+    public function setFechaDespacho(?\DateTimeInterface $fechaDespacho): self
+    {
+        $this->fechaDespacho = $fechaDespacho;
 
         return $this;
     }

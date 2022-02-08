@@ -18,9 +18,8 @@
         <tr>
             {{ action.th('Trabajador', true) }}
             {{ action.th('Proveedor', true) }}
+            {{ action.th('Alamcen', true) }}
             {{ action.th('Fecha', true) }}
-            {{ action.th('Precio', true) }}
-            {{ action.th('Cantidad', true) }}
             {{ action.th('Numero factura', true) }}
             {{ action.th('Activo', true, 'text-center') }}
             <th></th>
@@ -31,9 +30,8 @@
             <tr>
                 <td>{{ ordenCompra.trabajador}}</td>
                 <td>{{ ordenCompra.proveedor }}</td>
+                <td>{{ ordenCompra.almacen }}</td>
                 <td>{{ ordenCompra.fecha | date('Y-m-d') }}</td>
-                <td>{{ ordenCompra.precioOrden}}</td>
-                <td>{{ ordenCompra.cantidadOrden}}</td>
                 <td>{{ ordenCompra.numFactura}}</td>
                 <td class="text-center">{{ ordenCompra.activo | yesnocustom | raw }}</td>
                 <td>
